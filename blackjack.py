@@ -14,8 +14,6 @@ values = {'2':2, '3':3, '4':4, '5':5, '6':6,
 	'7':7, '8':8, '9':9, '10':10, 'Jack':10, 'Queen':10, 
 	'King':10, 'Ace':11}
 
-playing = True
-
 class Card():
 	'''
 	A standard playing card
@@ -38,6 +36,12 @@ class Deck():
 		for suit in suits:
 			for rank in ranks:
 				self.deck.append(Card(suit, rank))
+
+	def count(self):
+		num_cards = 0
+		for card in self.deck:
+			num_cards += 1
+		return num_cards
 
 	def __str__(self):
 		deck_disp = []
@@ -90,8 +94,6 @@ class Chips:
 
 def take_bet():
 	while True:
-		
-		if bankroll.total
 
 		try:
 			bet = int(input(f'\nYou have {bankroll.total} chips.' 
@@ -105,10 +107,6 @@ def take_bet():
 				print(f'\nYour bet must be between 0 and {bankroll.total} chips.')
 
 
-	print('\n' * 3)
-	print('OK, here we go!')
-	print('\n' * 3)
-
 def take_hit(deck, hand):
 	hand.add_card(deck.deal())
 
@@ -120,7 +118,7 @@ def player_move(deck, dealer_hand, player_hand):
 ''')
 	
 	while True:
-		print(f'You have {player_hand.value}.')
+		print(f'You have {player_hand.value}. There are {deck.count()} cards left in the deck.')
 		try:
 			move = int(input('\nEnter a number to make your move: '))
 		except ValueError:
@@ -138,7 +136,6 @@ def player_move(deck, dealer_hand, player_hand):
 		break
 
 	
-
 
 def dealer_move(deck, dealer_hand, player_hand):
 	global playing
@@ -171,7 +168,7 @@ def player_busts(hand):
     global playing
     playing = False
     display_hands(player_hand, dealer_hand, playing)
-    print('\nYOU BUSTED, YA GOOMBA!')
+    print(f'\nYOU BUSTED WITH {player_hand.value}, GOOMBA!')
     bankroll.lose_bet()
 
 
@@ -189,6 +186,29 @@ def dealer_wins(hand):
     
 def push():
     print('OH GEEZ IT\'S A PUSH')
+
+def got_cash():
+	if bankroll.total > 0:
+		return True
+	else:
+		print('\nYOU''RE BROKE, PLAYA!')
+		print('\n1. Hit the ATM')
+		print('2. Quit')
+		while True:
+			try:
+				choice = int(input('\nWhat do you want to do? '))
+			except ValueError:
+				print('You must enter 1 or 2!')
+			if choice == 1:
+				bankroll.total = 1000
+				return True
+			elif choice == 2:
+				print('\nGOODNIGHT, AND DON''T FORGET TO TIP THE DEALER!')
+				print('\n' * 2)
+				return False
+			else:
+				print('You must enter 1 or 2!')
+			break
 
 
 disp_card = """\
@@ -286,8 +306,8 @@ while True:
 	print('\n' * 4)
 
 	
-	while True:
-	
+	while got_cash() == True:
+
 		playing = True
 		deck = Deck()
 		dealer_hand = Hand()
@@ -309,8 +329,6 @@ while True:
 		
 
 	break
-
-
 
 '''
 TODO
